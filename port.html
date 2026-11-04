@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSE 2024 – Group Members</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest-dark: #0a1a0d;
+    --forest-mid: #1a3320;
+    --forest-green: #2d5a27;
+    --leaf: #4a8c3f;
+    --moss: #6db560;
+    --glow: #a8e89c;
+    --gold: #c9a84c;
+    --cream: #f0ead6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--forest-dark);
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Animated forest background */
+  .forest-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(45,90,39,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(26,51,32,0.5) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(10,26,13,0.8) 0%, transparent 70%),
+      linear-gradient(180deg, #071209 0%, #0f2012 40%, #0a1a0d 100%);
+  }
+
+  /* Floating particles (fireflies) */
+  .firefly {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--glow);
+    box-shadow: 0 0 8px 2px rgba(168,232,156,0.8);
+    animation: float linear infinite;
+    opacity: 0;
+    z-index: 1;
+  }
+
+  @keyframes float {
+    0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.7; }
+    100% { transform: translateY(-10vh) translateX(40px); opacity: 0; }
+  }
+
+  /* Tree silhouettes */
+  .trees {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 35vh;
+    z-index: 1;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 300'%3E%3Cpath fill='%230a1a0d' d='M0,300 L0,200 L30,160 L60,200 L60,140 L90,90 L120,140 L120,170 L150,120 L180,170 L180,150 L210,100 L240,150 L240,130 L270,70 L300,130 L300,110 L340,50 L380,110 L380,90 L420,30 L460,90 L460,110 L500,60 L540,110 L540,130 L580,80 L620,130 L620,100 L660,40 L700,100 L700,120 L740,70 L780,120 L780,140 L820,90 L860,140 L860,120 L900,60 L940,120 L940,140 L980,100 L1020,140 L1020,160 L1060,110 L1100,160 L1100,140 L1140,80 L1180,140 L1180,160 L1220,120 L1260,160 L1260,180 L1300,140 L1340,180 L1380,200 L1440,200 L1440,300 Z'/%3E%3C/svg%3E") no-repeat bottom;
+    background-size: cover;
+  }
+
+  /* Main container */
+  .container {
+    position: relative;
+    z-index: 10;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 50px;
+    animation: fadeDown 1s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .leaf-icon {
+    font-size: 2.4rem;
+    display: block;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 10px rgba(168,232,156,0.6));
+  }
+
+  .title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    color: var(--glow);
+    letter-spacing: 0.12em;
+    text-shadow: 0 0 30px rgba(168,232,156,0.4);
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    color: var(--moss);
+    letter-spacing: 0.3em;
+    font-size: 0.78rem;
+    margin-top: 10px;
+    text-transform: uppercase;
+  }
+
+  .divider {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 20px auto 0;
+  }
+
+  /* Grid of cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+  }
+
+  .card {
+    background: linear-gradient(135deg, rgba(26,51,32,0.85), rgba(10,26,13,0.9));
+    border: 1px solid rgba(109,181,96,0.2);
+    border-radius: 14px;
+    padding: 22px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: default;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+    backdrop-filter: blur(4px);
+  }
+
+  .card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: rgba(168,232,156,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(109,181,96,0.15);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Staggered animation delays */
+  .card:nth-child(1)  { animation-delay: 0.1s; }
+  .card:nth-child(2)  { animation-delay: 0.2s; }
+  .card:nth-child(3)  { animation-delay: 0.3s; }
+  .card:nth-child(4)  { animation-delay: 0.4s; }
+  .card:nth-child(5)  { animation-delay: 0.5s; }
+  .card:nth-child(6)  { animation-delay: 0.6s; }
+  .card:nth-child(7)  { animation-delay: 0.7s; }
+  .card:nth-child(8)  { animation-delay: 0.8s; }
+  .card:nth-child(9)  { animation-delay: 0.9s; }
+  .card:nth-child(10) { animation-delay: 1.0s; }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--forest-green), var(--leaf));
+    border: 2px solid var(--moss);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--glow);
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(109,181,96,0.3);
+  }
+
+  .info { flex: 1; min-width: 0; }
+
+  .serial {
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.88rem;
+    color: var(--cream);
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .roll {
+    font-size: 0.7rem;
+    color: var(--moss);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 50px;
+    color: var(--forest-green);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    animation: fadeIn 1s 1.5s ease forwards;
+    opacity: 0;
+  }
+
+  .footer span {
+    color: var(--moss);
+  }
+</style>
+</head>
+<body>
+
+<div class="forest-bg"></div>
+<div class="trees"></div>
+
+<!-- Fireflies -->
+<script>
+  for (let i = 0; i < 22; i++) {
+    const f = document.createElement('div');
+    f.className = 'firefly';
+    f.style.left = Math.random() * 100 + 'vw';
+    f.style.animationDuration = (8 + Math.random() * 14) + 's';
+    f.style.animationDelay = (Math.random() * 12) + 's';
+    f.style.width = f.style.height = (2 + Math.random() * 4) + 'px';
+    document.body.appendChild(f);
+  }
+</script>
+
+<div class="container">
+
+  <div class="header">
+    <span class="leaf-icon">🌿</span>
+    <div class="title">CSE Batch 2026<br>Group Members</div>
+    <div class="subtitle">B.Tech · Computer Science &amp; Engineering</div>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="avatar">BG</div>
+      <div class="info">
+        <div class="serial">01</div>
+        <div class="name">Binod Ghosh</div>
+        <div class="roll">BT/CSE/24/054</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="avatar">KY</div>
+      <div class="info">
+        <div class="serial">02</div>
+        <div class="name">Kamlesh Yadav</div>
+        <div class="roll">BT/CSE/24/033</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="avatar">KK</div>
+      <div class="info">
+        <div class="serial">03</div>
+        <div class="name">Kundan Kumar</div>
+        <div class="roll">BT/CSE/24/046</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="avatar">RY</div>
+      <div class="info">
+        <div class="serial">04</div>
+        <div class="name">Rahul Kumar Yadav</div>
+        <div class="roll">BT/CSE/24/081</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="avatar">TY</div>
+      <div class="info">
+        <div class="serial">05</div>
+        <div class="name">Tinku Yadav</div>
+        <div class="roll">BT/CSE/24/062</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="avatar">AI</div>
+      <div class="info">
+        <div class="serial">06</div>
+        <div class="name">Abu Ibtisham</div>
+        <div class="roll">BT/CSE/24/049</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="avatar">KL</div>
+      <div class="info">
+        <div class="serial">07</div>
+        <div class="name">Kaushik Kumar Lal</div>
+        <div class="roll">BT/CSE/24/031</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="avatar">RK</div>
+      <div class="info">
+        <div class="serial">08</div>
+        <div class="name">Ritesh Kumar</div>
+        <div class="roll">BT/CSE/24/104</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="avatar">HK</div>
+      <div class="info">
+        <div class="serial">09</div>
+        <div class="name">Himanshu Kumar</div>
+        <div class="roll">BT/CSE/24/079</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="avatar">SM</div>
+      <div class="info">
+        <div class="serial">10</div>
+        <div class="name">Saurabh Kumar Mishra</div>
+        <div class="roll">BT/CSE/24/025</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>🌲</span> &nbsp; Department of Computer Science &nbsp; <span>🌲</span>
+  </div>
+
+</div>
+</body>
+</html>
